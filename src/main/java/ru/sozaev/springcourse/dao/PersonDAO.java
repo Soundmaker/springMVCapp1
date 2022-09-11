@@ -32,21 +32,21 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, age, email) VALUES (?,?,?)", person.getName(), person.getAge(), person.getEmail());
+        jdbcTemplate.update("INSERT INTO Person(name, age, email, address) VALUES (?,?,?,?)", person.getName(), person.getAge(), person.getEmail(), person.getAddress());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE Person SET name=?,age=?,email=? WHERE id=?", updatedPerson.getName(), updatedPerson.getAge(),
-                updatedPerson.getEmail(), id);
+        jdbcTemplate.update("UPDATE Person SET name=?,age=?,email=?,address=? WHERE id=?", updatedPerson.getName(), updatedPerson.getAge(),
+                updatedPerson.getEmail(), updatedPerson.getAddress(), id);
     }
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
     }
 
-    public Optional<Person> show (String email) {
+    public Optional<Person> show(String email) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE email=?", new Object[]{email},
-                        new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
 
@@ -69,7 +69,7 @@ public class PersonDAO {
         List<Person> people = new ArrayList<>();
 
         for (int i = 0; i < 1000; i++) {
-            people.add(new Person(i, "Name" + i, 30, "test" + i + "email.ru"));
+            people.add(new Person(i, "Name" + i, 30, "test" + i + "email.ru", "some address"));
         }
         return people;
     }
@@ -82,10 +82,10 @@ public class PersonDAO {
         jdbcTemplate.batchUpdate("INSERT INTO Person VALUES (?,?,?,?)", new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                preparedStatement.setInt(1,people.get(i).getId());
-                preparedStatement.setString(2,people.get(i).getName());
-                preparedStatement.setInt(3,people.get(i).getAge());
-                preparedStatement.setString(4,people.get(i).getEmail());
+                preparedStatement.setInt(1, people.get(i).getId());
+                preparedStatement.setString(2, people.get(i).getName());
+                preparedStatement.setInt(3, people.get(i).getAge());
+                preparedStatement.setString(4, people.get(i).getEmail());
             }
 
             @Override
