@@ -3,11 +3,13 @@ package ru.sozaev.springcourse.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name="person")
 public class Person {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty(message = "Name should not be empty")
@@ -17,30 +19,41 @@ public class Person {
     @Min(value = 0, message = "Age should be greater than 0")
     @Column(name = "age")
     private int age;
+
+    @Column(name = "email")
     @NotEmpty(message = "Email should not be empty")
     @Email
     private String email;
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    @Column(name = "address")
     @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your address should be in this format: Country, City, Postal Code(6 digits)")
     private String address;
 
-    public Person(int id, String name, int age, String email,String address) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.address = address;
-    }
+    @OneToMany(mappedBy = "owner")
+    private List<Item> Items;
 
     public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
@@ -59,19 +72,31 @@ public class Person {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public String getAddress() {
+        return address;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getName() {
-        return name;
+    public List<Item> getItems() {
+        return Items;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItems(List<Item> Items) {
+        this.Items = Items;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", items=" + Items +
+                '}';
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.sozaev.springcourse.models.Person;
+import ru.sozaev.springcourse.services.ItemsService;
 import ru.sozaev.springcourse.services.PeopleService;
 
 import javax.validation.Valid;
@@ -14,10 +15,12 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private final ItemsService itemsService;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService, ItemsService itemsService) {
         this.peopleService = peopleService;
+        this.itemsService = itemsService;
     }
 
     @GetMapping()
