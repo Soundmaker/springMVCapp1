@@ -44,6 +44,9 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @Enumerated(EnumType.ORDINAL)
+    private Mood mood;
+
     public Person() {
     }
 
@@ -114,6 +117,14 @@ public class Person {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
     }
 
     @Override
