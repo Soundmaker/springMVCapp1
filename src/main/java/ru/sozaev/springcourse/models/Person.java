@@ -44,7 +44,7 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Mood mood;
 
     public Person() {
@@ -130,12 +130,9 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", items=" + Items +
                 '}';
     }
 }
