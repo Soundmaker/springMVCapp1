@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.sozaev.springcourse.models.Person;
 
 import javax.persistence.EntityManager;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class PersonDAO {
@@ -36,7 +38,7 @@ public class PersonDAO {
     @Transactional
     public void testJoin() {
         Session session = entityManager.unwrap(Session.class);
-        List<Person> people = session.createQuery("select p from Person p left join fetch p.Items").getResultList();
+        Set<Person> people = new HashSet<>(session.createQuery("select p from Person p left join fetch p.Items").getResultList());
 
         for (Person person : people) {
             System.out.println("Person " + person.getName() + " has: " + person.getItems());
